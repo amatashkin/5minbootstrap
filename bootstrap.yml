@@ -23,7 +23,7 @@
     action: apt pkg=ufw state=installed  
 
   - name: Add user
-    action: user name=amatashkin password=$user_password
+    action: user name=amatashkin password={{ user_password }}
 
   - name: Add authorized deploy key
     action: authorized_key user=amatashkin key='$FILE(authorized_keys)'
