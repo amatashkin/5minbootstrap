@@ -26,7 +26,7 @@
     action: user name=amatashkin password={{ user_password }}
 
   - name: Add authorized deploy key
-    action: authorized_key user=amatashkin key='$FILE(authorized_keys)'
+    action: authorized_key user=amatashkin key="{{ lookup('file', '~/.ssh/authorized_keys') }}"
 
   - name: Remove sudo group rights
     action: lineinfile dest=/etc/sudoers regexp="^%sudo" state=absent
@@ -49,7 +49,7 @@
     action: copy src=config/apt_periodic dest=/etc/apt/apt.conf.d/10periodic
 
   - name: Make sure unattended-upgrades only installs from $ubuntu_release-security
-    action: lineinfile dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-updates" state=absent
+    action: lineinfile dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="{{ ubuntu_release }}-updates" state=absent
 
   handlers:
   - name: Restart ssh
